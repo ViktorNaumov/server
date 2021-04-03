@@ -8,6 +8,7 @@ const authRouts = require("./routs/auth");
 const userPostRouts = require("./routs/post");
 const stateRouts = require("./routs/state");
 const setRouts = require("./routs/set")
+const getRouts = require("./routs/get")
 const app = express();
 
 app.use(cookieParser());
@@ -34,7 +35,8 @@ app.use(function (req, res, next) {
 app.use("/api/auth", authRouts);
 app.use("/push", userPostRouts);
 app.use("/state", stateRouts);
-app.use("/api/set", setRouts)
+app.use("/api/set", setRouts);
+app.use("/api/get", getRouts)
 
 
 
