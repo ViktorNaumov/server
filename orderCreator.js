@@ -33,14 +33,14 @@ exports.ExportCreator = function (data) {
 
   connection.query(query1, (err, result, field) => {
     customer = result[0];
-    let query2 = "INSERT INTO orders values(null," + result[0].id + ");";
+    let query2 = "INSERT INTO orders values(null," + result[0].id + ", 0);";
 
     connection.query(query2, (err, result, field) => {
       for (let i = 1; i < data.dataPush.length; i++) {
         param = data.dataPush[i].param
 
         let query =
-          "INSERT INTO user_request (name,quantity,steel_id,thickness_id,config_id,params,weight,square,cost,summ_cost,summ_weight,summ_square,dxf,date_time,orders_id,specification_id)" +
+          "INSERT INTO user_request (name,quantity,steel_id,thickness_id,config_id,params,weight,cost,dxf,date_time,orders_id,specification_id)" +
           " VALUES ('" +
           data.dataPush[i].name +
           "','" +
@@ -56,15 +56,7 @@ exports.ExportCreator = function (data) {
           ",'" +
           data.dataPush[i].m +
           "','" +
-          data.dataPush[i].S +
-          "','" +
           data.dataPush[i].cost +
-          "','" +
-          data.dataPush[i].summ +
-          "','" +
-          data.dataPush[i].summ_m +
-          "','" +
-          data.dataPush[i].summ_S +
           "','" +
           null +
           "'" +

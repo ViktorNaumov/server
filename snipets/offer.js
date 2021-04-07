@@ -3,7 +3,7 @@
 exports.snipetHTML = (dataPush,order,customer) => {
   let Sc = 0;
   for (let i = 1; i < dataPush.length; i++) {
-    Sc = +Sc + +(dataPush[i].summ / 1.2);
+    Sc = +Sc + +(dataPush[i].cost*dataPush[i].Q / 1.2);
   }
   Sc = Sc.toFixed(2);
   let nds = (Sc * 0.2).toFixed(2);
@@ -20,7 +20,7 @@ exports.snipetHTML = (dataPush,order,customer) => {
     <td style="text-align:center"> ${sp.Q} </td>
     <td style="text-align:center"> шт. </td>
     <td style="text-align:right"> ${(sp.cost/1.2).toFixed(2)} </td>
-    <td style="text-align:right"> ${(sp.summ/1.2).toFixed(2)} </td>
+    <td style="text-align:right"> ${(sp.cost*sp.Q/1.2).toFixed(2)} </td>
     </tr>`
     );
 

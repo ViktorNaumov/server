@@ -16,16 +16,15 @@ connection.connect((err) => {
   }
 });
 
-exports.getordercost = function (value, func) {
+exports.getorderpayment = function (value, func) {
   
-  let query = "SELECT ROUND(sum(cost*quantity),2) as summ FROM user_request where orders_id = "+value.number+";"
+  let query = "SELECT payment FROM orders where id = "+value+";"
 
   connection.query(query, (err, result) => {
     if (err) {
       console.log(err);
     } else {
-      
-      func(result[0].summ);
+      func(result[0].payment);
     }
   });
 };
