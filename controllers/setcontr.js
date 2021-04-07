@@ -21,6 +21,10 @@ module.exports.orderpayment = function (req, res) {
   if (req.body.value) {
     orderpayment.setorderpayment(req.body.value, (value) => {
       if (value === 1) {
+
+        // здесь вызов функции присвоения заявок и спецификаций
+
+
         res.json({ resultCode: 0 });
       }
     })
