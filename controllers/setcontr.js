@@ -24,7 +24,9 @@ module.exports.orderpayment = function (req, res) {
     orderpayment.setorderpayment(req.body.value, (value) => {
       if (value === 1) {
         request.getrequest((value)=>{ // здесь вызов функции присвоения заявок и спецификаций
-          specification.getspecification((value)=>{console.log("getspesification выполнен")})
+          specification.getspecification(value,req.body.value,(value)=>{
+            console.log("getspesification выполнен")
+          })
           console.log("getreguest выполнен")
         })
         

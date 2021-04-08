@@ -591,39 +591,53 @@ SECTION
   2
 ENTITIES
   0
-LWPOLYLINE
-  5
+CIRCLE
+5
 100
 100
 AcDbEntity
-  8
+8
 Слой_1
- 62
+62
 7
 100
-AcDbPolyline
- 90
-3
- 70
+AcDbCircle
+90
 1
- 10
-0
-20
-0
-30
-0
+70
+1
 10
-345
+228
 20
-0
+228
 30
 0
+40
+228
+0
+CIRCLE
+5
+101
+100
+AcDbEntity
+8
+Слой_1
+62
+7
+100
+AcDbCircle
+90
+1
+70
+1
 10
-325.63
+228
 20
-448.20
+228
 30
 0
+40
+28
 0
 ENDSEC
   0
