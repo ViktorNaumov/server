@@ -17,55 +17,25 @@ connection.connect((err) => {
 });
 
 exports.getspecification = function (requestid, value, func) {
-  let query =
-    "select distinct steel.steel, thickness.thickness from user_request" +
-    " join steel on user_request.steel_id =steel.id" +
-    " join thickness on user_request.thickness_id = thickness.id where user_request.orders_id = " +
-    value.number +
-    " ;";
+  let query = `CALL set_specification(${value.number},${requestid});`;
 
   connection.query(query, (err, result) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(result);
-      
-      for (let i = 0; i < result.length; i++) {
-          let steel = result[i].steel;
-          console.log(steel)
-          let thickness = result[i].thickness;
-          console.log(thickness)
-        let query =
-          "select id from specification where steel_id = (select id from steel where steel = '" +
-          steel +
-          "')" +
-          " and thickness_id = (select id from thickness where thickness = " +
-          thickness +
-          ");";
-        connection.query(query, (err, result) => {
-          if (err) {
-            console.log(err);
-          } else {
-              console.log(result)
-            if (result[i] == undefined) {
-              let query =
-                "insert into specification values" +
-                "(null,(select id from steel where steel = '"+steel+"'),(select id from thickness where thickness = "+thickness+"), " +
-                requestid +
-                ");";
+      func(result[0]);
+    }
+  });
+};
 
-                connection.query(query, (err, result) => {
-                    if (err) {
-                      console.log(err);
-                    } else {
+exports.setspecification = function (requestid, order, func) {
+  let query = `CALL set_user_request_spec(${order},${requestid});`;
 
-                    }
-                })
-
-            }
-          }
-        });
-      }
+  connection.query(query, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      func(true);
     }
   });
 };
