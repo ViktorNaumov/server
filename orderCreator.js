@@ -37,40 +37,46 @@ exports.ExportCreator = function (data) {
 
     connection.query(query2, (err, result, field) => {
       for (let i = 1; i < data.dataPush.length; i++) {
-        param = data.dataPush[i].param
+        param = JSON.stringify(data.dataPush[i].param);
+        console.log(param);
 
         let query =
-          "INSERT INTO user_request (name,quantity,steel_id,thickness_id,config_id,params,weight,cost,dxf,date_time,orders_id,specification_id)" +
-          " VALUES ('" +
-          data.dataPush[i].name +
-          "','" +
-          data.dataPush[i].Q +
-          "'," +
-          "(select id from steel where steel = '"+data.dataPush[i].steel +
-          "')," +
-          "(select id from thickness where thickness = "+data.dataPush[i].s +
-          ")," +
-          "(select id from config where config ='"+data.dataPush[i].type +
-          "')," +
+          "INSERT INTO user_request (id,name,quantity,steel_id,thickness_id,config_id,params,weight,cost,dxf,date_time,orders_id,specification_id)" +
+          " VALUES (" +
           null +
           ",'" +
-          data.dataPush[i].m +
-          "','" +
-          data.dataPush[i].cost +
-          "','" +
-          null +
-          "'" +
-          ",NOW(),'" +
-          result.insertId +
+          data.dataPush[i].name +
           "'," +
+          data.dataPush[i].Q +
+          "," +
+          "(select id from steel where steel = '" +
+          data.dataPush[i].steel +
+          "')," +
+          "(select id from thickness where thickness = " +
+          data.dataPush[i].s +
+          ")," +
+          "(select id from config where config ='" +
+          data.dataPush[i].type +
+          "'),'" +
+          param +
+          "'," +
+          data.dataPush[i].m +
+          "," +
+          data.dataPush[i].cost +
+          "," +
+          null +
+          ",NOW()," +
+          result.insertId +
+          "," +
           null +
           ");";
+
         order = result.insertId;
-        
 
         connection.query(query, (err, result, field) => {
+          console.log(result)
           update = result.insertId;
-          
+
 
           const dxfMaker = new Promise((resolve, reject) => {
             let str = Dxf.DxfCreator(
@@ -81,28 +87,28 @@ exports.ExportCreator = function (data) {
           });
 
           dxfMaker.then((value) => {
-            
             let query =
               "UPDATE user_request SET dxf = '" +
               value +
               "' WHERE id = " +
               update +
               ";";
-              fs.writeFile("./dxf/" + update + "_test.dxf", value, (err) => {
-                if (err) console.log(err);
-                else {
-                  console.log("File " + update + "_test.dxf" + " written");
-                }
-              });
-            connection.query(query, (err, result, field) => {
-              
+            fs.writeFile("./dxf/" + update + "_test.dxf", value, (err) => {
+              if (err) console.log(err);
+              else {
+                console.log("File " + update + "_test.dxf" + " written");
+              }
             });
+            connection.query(query, (err, result, field) => {});
           });
 
-          let query1 = "UPDATE user_request SET params='"+ JSON.stringify(param)+"' WHERE id="+update+";"
-          connection.query(query1, (err, result, field) => {
-              
-          });
+          let query1 =
+            "UPDATE user_request SET params='" +
+            JSON.stringify(param) +
+            "' WHERE id=" +
+            update +
+            ";";
+          connection.query(query1, (err, result, field) => {});
         });
       }
 
@@ -120,7 +126,7 @@ exports.ExportCreator = function (data) {
             from: '"Test" <viktornaumov2011@mail.ru>',
             attachments: [
               {
-                filename: order+".pdf",
+                filename: order + ".pdf",
                 path: "./pdf/" + order + ".pdf",
               },
             ],
