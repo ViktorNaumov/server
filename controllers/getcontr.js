@@ -4,6 +4,8 @@ const nameholder = require("../geters/getnameholder");
 const order = require("../geters/getorder")
 const ordercost = require("../geters/getordercost")
 const orderpayment = require("../geters/getorderpayment")
+const requests = require("../geters/getrequests")
+const datarequest = require("../geters/getdatarequest")
 
 module.exports.thickness = function (req, res) {
   thickness.getthickness((value) => {
@@ -58,7 +60,7 @@ module.exports.ordercost = function (req, res) {
   })
 }
 
-module.exports.orderpayment = async function (req, res) {
+module.exports.orderpayment = function (req, res) {
   orderpayment.getorderpayment(req.body.value, (value) => {
     if (value === 1) {
       res.json({ resultCode: 0 })
@@ -70,3 +72,23 @@ module.exports.orderpayment = async function (req, res) {
 
 }
 
+module.exports.requests = function (req,res){
+  requests.getrequests((value)=>{
+  if(value){
+    res.json({ resultCode: 0, value: value });
+  }else{
+    res.json({ resultCode: 1 });
+  }
+
+  })
+}
+
+module.exports.datarequest = function (req,res){
+  datarequest.getdatarequest(req.body.value,(value)=>{
+    if(value){
+      res.json({ resultCode: 0, value: value });
+    }else{
+      res.json({ resultCode: 1 });
+    }
+  })
+}

@@ -8,4 +8,7 @@ router.post("/nameholder", controller.nameholder);
 router.post("/order", controller.order);
 router.post("/ordercost", controller.ordercost);
 router.post("/orderpayment",controller.orderpayment);
+router.post("/request", controller.requests);
+router.post("/datarequest", controller.datarequest);
+
 module.exports = router;
