@@ -74,7 +74,6 @@ exports.ExportCreator = function (data) {
         order = result.insertId;
 
         connection.query(query, (err, result, field) => {
-          console.log(result)
           update = result.insertId;
 
 

@@ -46,8 +46,8 @@ exports.setholders = function (value) {
     },
     cirholders: {
       param: { Dmin: value.Dmincir, Dmax: value.Dmaxcir },
-      ps1: value.PS2cir,
-      ps2: value.PS1cir,
+      ps1: value.PS1cir,
+      ps2: value.PS2cir,
     },
     washolders: {
       param: {
