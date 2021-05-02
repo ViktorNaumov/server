@@ -29,6 +29,7 @@ exports.getspecification = function (requestid, value, func) {
 };
 
 exports.setspecification = function (requestid, order, func) {
+  console.log(order,requestid)
   let query = `CALL set_user_request_spec(${order},${requestid});`;
 
   connection.query(query, (err, result) => {

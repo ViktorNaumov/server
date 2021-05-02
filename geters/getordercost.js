@@ -18,7 +18,7 @@ connection.connect((err) => {
 
 exports.getordercost = function (value, func) {
   
-  let query = "SELECT ROUND(sum(cost*quantity),2) as summ FROM user_request where orders_id = "+value.number+";"
+  let query = "SELECT sum(ROUND(cost,2)*quantity) as summ FROM user_request where orders_id = "+value.number+";"
 
   connection.query(query, (err, result) => {
     if (err) {

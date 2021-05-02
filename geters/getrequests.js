@@ -20,7 +20,7 @@ connection.connect((err) => {
 exports.getrequests = function (func) {
 
     
-    let query = "select request.id, request.start_time, request.finish_time ,ROUND (sum(user_request.cost* user_request.quantity),2) as summ  from specification join request on  specification.request_id = request.id join user_request on user_request.specification_id = specification.id  group by  request.id;"
+    let query = "select request.id, request.start_time, request.finish_time ,ROUND(sum(ROUND(user_request.cost, 2)* user_request.quantity), 2) as summ  from specification join request on  specification.request_id = request.id join user_request on user_request.specification_id = specification.id  group by  request.id;"
 
     connection.query(query, (err, result) => {
         if (err) {
