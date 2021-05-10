@@ -1,6 +1,6 @@
 
 
-exports.snipetHTML = (dataPush,order,customer) => {
+exports.snipetHTML = (dataPush,order,customer,shipment_time,finish_time) => {
   let Sc = 0;
   for (let i = 1; i < dataPush.length; i++) {
     Sc = +Sc + +(dataPush[i].cost*dataPush[i].Q / 1.2);
@@ -145,8 +145,8 @@ exports.snipetHTML = (dataPush,order,customer) => {
                     </table>
                 </div>
                 <div class="conditions">Всего наименований 1, на сумму ${all} руб.<br/><b>${all_str}.</b><br/>
-                Плановая дата отгрузки товара:<br/>
-                Оплатить не позднее 01.02.2021<br/>
+                Плановая дата отгрузки товара ${shipment_time.getDate().length>1?"0"+shipment_time.getDate():shipment_time.getDate()}.${shipment_time.getMonth().length>1?shipment_time.getMonth()+1:"0"+(shipment_time.getMonth()+1)}.${shipment_time.getFullYear()}<br/>
+                Оплатить не позднее ${finish_time.getDate().length>1?"0"+finish_time.getDate():finish_time.getDate()}.${finish_time.getMonth().length>1?finish_time.getMonth()+1:"0"+(finish_time.getMonth()+1)}.${finish_time.getFullYear()}<br/>
                 Условия оплаты: 100% предоплата в течении указанного выше срока.<br/>
                 При оплате после указанного срока, дата отгрузки будет пересмотрена.<br/> 
                 Товар отгружается на условиях самовывоза по адресу:<br/>

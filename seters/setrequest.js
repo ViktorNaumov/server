@@ -18,7 +18,7 @@ connection.connect((err) => {
 
 exports.setrequest = function ( func) {
 
-    let query = "INSERT request VALUES(null,NOW(),ADDDATE(Now(),INTERVAL (SELECT days from time_interval where name = 'request') DAY) );"
+    let query = "INSERT request VALUES(null,NOW(),ADDDATE(Now(),INTERVAL (SELECT days from time_interval where name = 'request') DAY),ADDDATE(Now(),INTERVAL (SELECT days from time_interval where name = 'prod') DAY)  );"
 
     connection.query(query, (err, result) => {
         if (err) {

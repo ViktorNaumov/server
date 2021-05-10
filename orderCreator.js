@@ -92,12 +92,12 @@ exports.ExportCreator = function (data) {
               "' WHERE id = " +
               update +
               ";";
-            fs.writeFile("./dxf/" + update + "_test.dxf", value, (err) => {
-              if (err) console.log(err);
-              else {
-                console.log("File " + update + "_test.dxf" + " written");
-              }
-            });
+            // fs.writeFile("./dxf/" + update + "_test.dxf", value, (err) => {
+            //   if (err) console.log(err);
+            //   else {
+            //     console.log("File " + update + "_test.dxf" + " written");
+            //   }
+            // });
             connection.query(query, (err, result, field) => {});
           });
 
@@ -111,8 +111,14 @@ exports.ExportCreator = function (data) {
         });
       }
 
-      pdf
-        .create(pdfTemplate.snipetHTML(data.dataPush, order, customer), {})
+      let query3 = "select shipment_time, finish_time from request where finish_time > now();"
+      connection.query(query3, (err, result, field) => {
+        if (err) console.log(err);
+        else{
+          let shipment_time = new Date(result[0].shipment_time)
+          let finish_time = new Date(result[0].finish_time)
+          pdf
+        .create(pdfTemplate.snipetHTML(data.dataPush, order, customer,shipment_time,finish_time), {})
         .toFile("./pdf/" + order + ".pdf", (err) => {
           if (err) {
             console.log(err);
@@ -132,6 +138,9 @@ exports.ExportCreator = function (data) {
           };
           Mailer(message);
         });
+        }
+      });
+      
     });
   });
 };
