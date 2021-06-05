@@ -49,6 +49,5 @@ exports.date = () => {
   }
 
   dateObj = { ...dateObj, year: date.getFullYear() };
-  console.log(date.getDay());
   return dateObj;
 };

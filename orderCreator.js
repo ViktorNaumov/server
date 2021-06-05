@@ -76,7 +76,6 @@ exports.ExportCreator = function (data) {
         connection.query(query, (err, result, field) => {
           update = result.insertId;
 
-
           const dxfMaker = new Promise((resolve, reject) => {
             let str = Dxf.DxfCreator(
               data.dataPush[i].type,
@@ -111,36 +110,55 @@ exports.ExportCreator = function (data) {
         });
       }
 
-      let query3 = "select shipment_time, finish_time from request where finish_time > now();"
+      let query3 =
+        "select shipment_time, finish_time from request where finish_time > now();";
       connection.query(query3, (err, result, field) => {
         if (err) console.log(err);
-        else{
-          let shipment_time = new Date(result[0].shipment_time)
-          let finish_time = new Date(result[0].finish_time)
-          pdf
-        .create(pdfTemplate.snipetHTML(data.dataPush, order, customer,shipment_time,finish_time), {})
-        .toFile("./pdf/" + order + ".pdf", (err) => {
-          if (err) {
-            console.log(err);
+        else {
+          let shipment_time
+          let finish_time
+          if(result[0] !== undefined){
+            shipment_time = new Date(result[0].shipment_time);
+            finish_time = new Date(result[0].finish_time);
+          }else{
+            let now = new Date
+            now.setDate(now.getDate() + 15);
+            shipment_time = new Date(now)
+            now.setDate(now.getDate() -12);
+            finish_time = new Date(now) 
           }
-          let message = {
-            to: data.dataPush[0].email,
-            subject: "Коммерческое предложение",
-            text:
-              "Здравствуйте, спасибо за заявку.\nДанное сообщение создано автоматически и не требует ответа.",
-            from: '"Test" <viktornaumov2011@mail.ru>',
-            attachments: [
-              {
-                filename: order + ".pdf",
-                path: "./pdf/" + order + ".pdf",
-              },
-            ],
-          };
-          Mailer(message);
-        });
+          pdf
+            .create(
+              pdfTemplate.snipetHTML(
+                data.dataPush,
+                order,
+                customer,
+                shipment_time,
+                finish_time
+              ),
+              {}
+            )
+            .toFile("./pdf/" + order + ".pdf", (err) => {
+              if (err) {
+                console.log(err);
+              }
+              let message = {
+                to: data.dataPush[0].email,
+                subject: "Коммерческое предложение",
+                text:
+                  "Здравствуйте, спасибо за заявку.\nДанное сообщение создано автоматически и не требует ответа.",
+                from: '"Test" <viktornaumov2011@mail.ru>',
+                attachments: [
+                  {
+                    filename: order + ".pdf",
+                    path: "./pdf/" + order + ".pdf",
+                  },
+                ],
+              };
+              Mailer(message);
+            });
         }
       });
-      
     });
   });
 };
